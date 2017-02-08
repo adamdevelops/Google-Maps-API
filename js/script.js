@@ -10,17 +10,21 @@
 //   });
 // }
 
+var marker;
 
 function initMap() {
-  var uluru = {lat: 40.715272, lng: -73.9974404};
+  var uluru = {lat: 40.715272, lng: -73.9974404}; //Location on China Town
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 18,
     center: uluru
   });
-  var marker = new google.maps.Marker({ //Bubbly Tea
+
+  marker = new google.maps.Marker({ //Bubbly Tea
     position: {lat: 40.7152875, lng: -73.9977593},
+    animation: google.maps.Animation.DROP,
     map: map
   });
+
   var marker2 = new google.maps.Marker({ //Confucius Plaza
     position: {lat: 40.7158642, lng: -73.9954891},
     map: map
@@ -37,11 +41,22 @@ function initMap() {
     position: {lat: 40.7151294, lng: -73.9988711},
     map: map
   });
+
+  marker.addListener('click', toggleBounce);
+
 }
 
-  google.maps.event.addDomListener(window, 'load', initialize);
-  google.maps.event.addDomListener(window, "resize", function() {
-  var center = map.getCenter();
-  google.maps.event.trigger(map, "resize");
-  map.setCenter(center);
+function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+
+google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, "resize", function() {
+    var center = map.getCenter();
+    google.maps.event.trigger(map, "resize");
+    map.setCenter(center);
   });
